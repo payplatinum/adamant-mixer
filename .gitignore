@@ -2,3 +2,4 @@ node_modules/
 logs/
 db/
 package-lock.json
+config.json
