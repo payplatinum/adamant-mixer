@@ -1,0 +1,21 @@
+{
+	/** List of nodes to fetch forging information, needed to count rewards.
+	If one become unavailable, pool will choose live one.
+	 **/
+	"node": [
+		"https://endless.adamant.im",
+		"https://clown.adamant.im",
+		"http://185.231.245.26:36666",
+		"http://80.211.177.181:36666",
+		"https://lake.adamant.im"
+	],
+
+	/** Your mixer address. Used to fetch forging information, needed to count rewards **/
+	"address": "U12345678980",
+
+	/** Put delegate's passPhrase to make payouts. If 'off', pool will be in read only mode, without payouts. **/
+	"passPhrase": "qwerty zxcvb hgfd jjkljlkj",
+	/** count transfers for send. **/
+	"count_transfers": 3,
+	"comission": 1
+}

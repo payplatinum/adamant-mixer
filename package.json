@@ -1,0 +1,17 @@
+{
+  "name": "adamant-mixer",
+  "version": "0.0.1",
+  "description": "Transfers mixer for adamant messenger",
+  "main": "app.js",
+  "dependencies": {
+    "adamant-api": "^0.1.5",
+    "jsonminify": "^0.4.1",
+    "nedb": "^1.8.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
