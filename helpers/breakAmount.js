@@ -5,8 +5,8 @@ const config = require('../modules/configReader');
 const _ = require('underscore');
 
 module.exports = amount => {
-    return [amount];
-    
+    return [amount - (config.comission || 0) - 0.5];
+
     const countPath = _.random(...(config.countPath || '2-5')
         .split('-')
         .map(n => Number(n)));
