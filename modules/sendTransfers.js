@@ -1,12 +1,12 @@
 const api = require('./api');
-const {dbTransfers} = require('./DB');
+const {dbTransfers, dbPayments} = require('./DB');
 const config = require('./configReader');
 const log = require('./log');
 const _ = require('underscore');
 
 async function sendTransfers () {
     try {
-        const transfers = await dbTransfers.syncFind({});
+        const transfers = await dbTransfers.syncFind({isFinished: false});
         if (transfers.length < config.count_transfers) {
             return;
         }
@@ -16,9 +16,6 @@ async function sendTransfers () {
             const amount = t.amount.pop();
             const trans = api.send(config.passPhrase, t.recipientId, amount);
             if (!trans || !trans.success) {
-                console.log({
-                    trans
-                })
                 log.error('Error send transfer!');
                 return;
             }
@@ -30,12 +27,11 @@ async function sendTransfers () {
                 if (t.amount.length) {
                     dbTransfers.update({_id: t._id}, {$set: {amount: t.amount}});
                 } else { // deleted transaction
-                    dbTransfers.remove({_id: t._id});
-
+                    // dbTransfers.remove({_id: t._id});
+                    dbTransfers.update({_id: t.id}, {$set: {isFinished: true, trans_id}});
                     api.send(config.passPhrase, t.recipientId, 'Mixer: finish transfer from ' + t.senderId + ' ' + t.total_amount + ' ADM.', 'message');
                     api.send(config.passPhrase, t.senderId, 'Mixer: You transfer is finished! To ' + t.recipientId + ' ' + t.total_amount + ' ADM send.', 'message');
                 }
-
             }
         });
     } catch (e) {
