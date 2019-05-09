@@ -1,18 +1,18 @@
 const api = require('./api');
-const db = require('./DB').dbTransfers;
+const {dbTransfers} = require('./DB');
 const config = require('./configReader');
 const log = require('./log');
 const _ = require('underscore');
 
-async function sendTransfers() {
+async function sendTransfers () {
     try {
-        const transfers = await db.syncFind({});
+        const transfers = await dbTransfers.syncFind({});
         if (transfers.length < config.count_transfers) {
             return;
         }
 
         _.shuffle(transfers).forEach(t => {
-            console.log('Send ', t);
+            console.log('Transfer', t);
             const amount = t.amount.pop();
             const trans = api.send(config.passPhrase, t.recipientId, amount);
             if (!trans || !trans.success) {
@@ -28,19 +28,12 @@ async function sendTransfers() {
             api.send(config.passPhrase, t.senderId, 'Mixer: You transfer to ' + t.recipientId + ' ' + amount + ' ADM send. TxId: ' + trans_id, 'message');
             if (trans_id) {
                 if (t.amount.length) {
-                    db.update({
-                        _id: t._id
-                    }, {
-                        $set: {
-                            amount: t.amount
-                        }
-                    });
+                    dbTransfers.update({_id: t._id}, {$set: {amount: t.amount}});
                 } else { // deleted transaction
-                    db.remove({
-                        _id: t._id
-                    });
-                    api.send(config.passPhrase, t.recipientId, 'Mixer: finish transfer from ' + t.senderId + ' ' + t.total_amount + ' ADM. TxId: ' + trans_id, 'message');
-                    api.send(config.passPhrase, t.senderId, 'Mixer: You transfer is finished! To ' + t.recipientId + ' ' + t.total_amount + ' ADM send. TxId: ' + trans_id, 'message');
+                    dbTransfers.remove({_id: t._id});
+
+                    api.send(config.passPhrase, t.recipientId, 'Mixer: finish transfer from ' + t.senderId + ' ' + t.total_amount + ' ADM.', 'message');
+                    api.send(config.passPhrase, t.senderId, 'Mixer: You transfer is finished! To ' + t.recipientId + ' ' + t.total_amount + ' ADM send.', 'message');
                 }
 
             }
@@ -48,6 +41,6 @@ async function sendTransfers() {
     } catch (e) {
         log.error(' Send: ' + e);
     }
-
 }
+
 setInterval(sendTransfers, 10 * 1000);

@@ -1,5 +1,5 @@
 /**
- * description random break amount
+ * @description random break amount for paths
  */
 const config = require('../modules/configReader');
 const _ = require('underscore');
@@ -24,8 +24,5 @@ module.exports = amount => {
     };
 
     arrAmount.push(amount - allAmount);
-
     return arrAmount;
 };
-
-console.log(module.exports(50));

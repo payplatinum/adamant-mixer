@@ -47,13 +47,7 @@ module.exports = {
         "node": true
     },
     "globals": {
-        "it": true,
-        "describe": true,
-        "before": true,
-        "beforeEach": true,
-        "after": true,
-        "afterEach": true,
-        "chrome": true,
+        "Promise": true,
         "Symbol": true
     },
     "plugins": []
