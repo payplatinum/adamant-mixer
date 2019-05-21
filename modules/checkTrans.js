@@ -10,8 +10,7 @@ const log = require('./log');
 
 module.exports = (t) => {
     try {
-        if (t.amount) { // transfer
-
+        if (t.amount && t.type === 8) { // transfer
             const chat = t.asset.chat;
             const msg = api.decodeMsg(chat.message, t.senderPublicKey, config.passPhrase, chat.own_message).toUpperCase();
             prepTrasfer(t, msg);
