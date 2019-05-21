@@ -36,7 +36,7 @@ async function prepTrasfer (tx, msg) {
 
     let not_enough_fee = data.reduce((s, r) => {
         return s + +r.split(' ')[2];
-    }, 0) > tx.amount / 100000000;
+    }, 0) > (tx.amount / 100000000 - config.comission * data.length);
 
     const order = {
         txid: tx.id,
