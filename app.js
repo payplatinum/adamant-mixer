@@ -2,15 +2,10 @@ const api = require('./modules/api');
 const log = require('./modules/log');
 const config = require('./modules/configReader');
 const iterat = require('./modules/iterat');
-
 const {
     dbMixerAccounts,
     dbSystem
 } = require('./modules/DB');
-
-setTimeout(() => {
-    init();
-}, 1000);
 
 async function init () {
     log.info('Start Adamant-Mixer ' + config.address);
@@ -35,3 +30,5 @@ async function init () {
 
     setInterval(iterat, 4000);
 }
+
+setTimeout(init, 2000);
