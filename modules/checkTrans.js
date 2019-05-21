@@ -24,6 +24,11 @@ module.exports = (t) => {
 };
 
 
+/**
+ * @description parse transaction
+ * @param {Object} tx transaction
+ * @param {String} msg message 
+ */
 
 async function prepTrasfer (tx, msg) {
     //TODO: regexp valid t
