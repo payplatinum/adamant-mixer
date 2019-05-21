@@ -9,9 +9,12 @@ const {
 
 async function init () {
     log.info('Start Adamant-Mixer ' + config.address);
+    
     require('./modules/sendTransfers');
     require('./modules/senderBack');
-
+    if (config.api){
+        require('./server.js');
+    }
     dbMixerAccounts.findOne({account: config.address}, (err, acc) => {
         if (!acc) {
             dbMixerAccounts.insert({

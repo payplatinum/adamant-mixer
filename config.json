@@ -17,5 +17,6 @@
 	"passPhrase": "qwerty zxcvb hgfd jjkljlkj",
 	/** count transfers for send. **/
 	"count_transfers": 3,
+	"api": true,
 	"comission": 1
 }
